@@ -11,7 +11,8 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "*",
+        origin: ["http://localhost:5173", "https://expert-booking-system-nny3.onrender.com"],
+        methods: ["GET", "POST", "PATCH"]
     },
 });
 

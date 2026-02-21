@@ -1,13 +1,8 @@
-// function MyBookings() {
-//   return (
-//     <div style={{ padding: "20px" }}>
-//       <h2>My Bookings Page</h2>
-//     </div>
-//   );
-// }
 
-// export default MyBookings;
 
+import { API_URL } from "../config";
+
+axios.get(`${API_URL}/api/experts`)
 import { useState } from "react";
 import axios from "axios";
 

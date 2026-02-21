@@ -1,15 +1,7 @@
-// function ExpertDetail() {
-//   return (
-//     <div style={{ padding: "20px" }}>
-//       <h2>Expert Detail Page</h2>
-//       <p>This page is under construction.</p>
-//     </div>
-//   );
-// }
 
-// export default ExpertDetail;
+import { API_URL } from "../config";
 
-
+axios.get(`${API_URL}/api/experts`)
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";

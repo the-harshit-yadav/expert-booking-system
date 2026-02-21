@@ -1,9 +1,7 @@
-import { API_URL } from "../config";
-
-axios.get(`${API_URL}/api/experts`)
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { API_URL } from "../config";
 
 function ExpertList() {
   const [experts, setExperts] = useState([]);
@@ -15,10 +13,14 @@ function ExpertList() {
   }, [search, category]);
 
   const fetchExperts = async () => {
-    const res = await axios.get("http://localhost:5000/api/experts", {
-      params: { search, category },
-    });
-    setExperts(res.data.experts);
+    try {
+      const res = await axios.get(`${API_URL}/api/experts`, {
+        params: { search, category },
+      });
+      setExperts(res.data.experts);
+    } catch (error) {
+      console.error("Error fetching experts:", error);
+    }
   };
 
   return (
@@ -32,7 +34,7 @@ function ExpertList() {
           onChange={(e) => setSearch(e.target.value)}
         />
 
-        <select onChange={(e) => setCategory(e.target.value)}>
+        <select value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="">All Categories</option>
           <option value="Career">Career</option>
           <option value="Fitness">Fitness</option>

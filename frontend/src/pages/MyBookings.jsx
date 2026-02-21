@@ -1,21 +1,29 @@
-
-
-import { API_URL } from "../config";
-
-axios.get(`${API_URL}/api/experts`)
 import { useState } from "react";
 import axios from "axios";
+import { API_URL } from "../config";
 
 function MyBookings() {
   const [email, setEmail] = useState("");
   const [bookings, setBookings] = useState([]);
+  const [error, setError] = useState("");
 
   const fetchBookings = async () => {
-    if (!email) return alert("Enter email");
-    const res = await axios.get("http://localhost:5000/api/bookings", {
-      params: { email },
-    });
-    setBookings(res.data);
+    if (!email) {
+      alert("Enter email");
+      return;
+    }
+
+    try {
+      const res = await axios.get(`${API_URL}/api/bookings`, {
+        params: { email },
+      });
+
+      setBookings(res.data);
+      setError("");
+    } catch (err) {
+      console.error(err);
+      setError("Failed to fetch bookings");
+    }
   };
 
   return (
@@ -27,9 +35,16 @@ function MyBookings() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <button className="button" onClick={fetchBookings} style={{ marginLeft: "10px" }}>
+
+      <button
+        className="button"
+        onClick={fetchBookings}
+        style={{ marginLeft: "10px" }}
+      >
         Search
       </button>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
       <div style={{ marginTop: "20px" }}>
         {bookings.length === 0 ? (
@@ -37,7 +52,7 @@ function MyBookings() {
         ) : (
           bookings.map((b) => (
             <div key={b._id} className="card">
-              <p><strong>Expert:</strong> {b.expert.name}</p>
+              <p><strong>Expert:</strong> {b.expert?.name}</p>
               <p><strong>Date:</strong> {b.date}</p>
               <p><strong>Time:</strong> {b.time}</p>
               <p><strong>Status:</strong> {b.status}</p>

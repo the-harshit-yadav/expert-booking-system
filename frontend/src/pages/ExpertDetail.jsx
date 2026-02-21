@@ -37,12 +37,12 @@ function ExpertDetail() {
   }, [id]);
 
   const fetchExpert = async () => {
-    const res = await axios.get(`http://localhost:5000/api/experts/${id}`);
+    const res = await axios.get(`${API_URL}/api/experts/${id}`);
     setExpert(res.data);
   };
 
   const fetchBookings = async () => {
-    const res = await axios.get("http://localhost:5000/api/bookings", {
+    const res = await axios.get(`${API_URL}/api/bookings`, {
       params: { email: "" },
     });
     const filtered = res.data.filter((b) => b.expert._id === id);
@@ -55,7 +55,7 @@ function ExpertDetail() {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/bookings", {
+      await axios.post(`${API_URL}/api/bookings`, {
         expert: id,
         ...form,
         date: selectedDate,
